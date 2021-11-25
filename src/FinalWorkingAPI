@@ -1,0 +1,142 @@
+import React, {Component} from 'react';
+import Header from './header.js';
+//import { ReactComponent as Logo } from './logo.svg';
+//import ReactDOM from 'react-dom';
+//import Members from './Components/members';
+//import ReactDOM from 'react-dom';
+//import logo from './logo.png';
+//import 'bootstrap/dist/css/bootstrap.css';
+//import ReactBootstrap, {Jumbotron, Button, Col, Grid, Panel, FormGroup} from 'react-bootstrap'
+
+class App extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+         query: '',
+          members: [],
+           
+      };
+     
+  }
+ 
+  handleInputChange = () => {
+    this.setState({
+      query: this.search.value
+    }, () => {
+      if (this.state.query.length === 11) {
+          this.getInfo()
+         
+      } 
+    })
+  }
+
+  getInfo = () => {
+    
+    fetch('-------------', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+  },
+     body:  JSON.stringify({
+      "MWC0036Operation": {
+          "q036_message_data": {
+              "q036_req_msg_code": "Q036",
+              "q036_request_source": "B",
+              "q036_request_type": "C",
+              "q036_request_data": {
+                  "q036_member_number": this.state.query,
+                  "q036_first_name": "",
+                  "q036_last_name": ""
+              }
+          }
+      }
+  }),
+})
+
+        .then(response => response.json()) .then(members => this.setState({members: [members]})) 
+        
+        .catch(err => err)    
+    }
+    static getDerivedStateFromError(error) {
+      // Update state so the next render will show the fallback UI.
+      return { hasError: true };
+    }
+
+  render() {
+  
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+    let members = this.state.members
+    console.log(members)
+    /*if(members.length>0){
+       console.log(members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"]);
+       members=members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"];
+    }*/
+    return (
+      
+   <div id="topmost">
+    <Header />
+    <form id="input">
+         Enter Member Number : <br/>
+          <input id="inputstyle" type="text" size="35" 
+           placeholder="MEMBER NUMBER"
+           ref={input => this.search = input}
+           onChange={this.handleInputChange}  
+       /><br/><br/>
+       <input id="submit" type="submit" value="SUBMIT" align="center"/> 
+     </form>
+
+  }
+
+   {Object.keys(members).map((member) =>(
+
+       <div id ="myTbl" > 
+           
+           <form id="styling"  >
+            
+           <h3 id="heading">CONTACT DETAILS</h3>
+              <label>
+               First Name:
+               </label>
+               <input id="inputstyle" type="text" value={members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"].r036_m_first_name}  /><br/>
+               <br/>
+              <label>
+               Last Name:
+               </label>
+               <input id="inputstyle" type="text" value={members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"].r036_m_last_name}  /><br/>
+              <br/>
+              <label>
+               Address:
+              </label>
+               <input id="inputstyle" type="text" value={members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"].r036_m_address_street} /><br/>
+               <br/>
+               <label>
+               City  :
+               </label>  
+               <input id="inputstyle" type="text" value={members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"].r036_m_address_city} /><br/>
+               <br/>
+              <label>
+               State:
+               </label>
+               <input id="inputstyle" type="text" value={members[0]["MWC0036OperationResponse"]["r036_message_data"]["r036_response_member_data"].r036_m_address_state}  /><br/>
+               <br/>
+             
+               </form><br/><br/>  
+         
+               </div> 
+           
+        )
+       
+        )}
+             
+      
+  </div>
+     
+  )
+}
+}
+
+export default App;
+

@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"membershipapp4539466d": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

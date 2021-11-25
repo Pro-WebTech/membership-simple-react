@@ -1,0 +1,61 @@
+import React, {Component} from 'react';
+//import ReactDOM from 'react-dom';
+class App extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+          members: []
+      };
+  }
+
+  componentDidMount() {
+    fetch('https://xxxxxxxxxxxxxxx',{
+    
+      method: 'POST',
+      body: {
+        "MWC0036Operation": {
+            "q036_message_data": {
+                "q036_req_msg_code": "Q036",
+                "q036_request_source": "B",
+                "q036_request_type": "C",
+                "q036_request_data": {
+                    "q036_member_number": "xxxxxxxxxx",
+                    "q036_first_name": "",
+                    "q036_last_name": ""
+                }
+            }
+        }
+    }
+  })
+        .then(response => response.json())
+        
+        .then(
+            
+            members => this.setState(members)
+        )  
+        .catch(err => err)    
+    }
+    static getDerivedStateFromError(error) {
+      // Update state so the next render will show the fallback UI.
+      return { hasError: true };
+    }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+    let members = this.state.members
+    return (
+      <div>
+          <ul>
+            
+              {Object.keys(members).map((member, index) => <li key={index}>{member} : {members[member]}</li>)}
+          </ul>
+      </div>
+  )
+}
+}
+
+
+export default App;

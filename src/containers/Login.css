@@ -1,0 +1,35 @@
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+    background-color: white;
+    width: 600px;
+    height:330px;
+    border-radius: 20px;
+    margin: 0 auto;
+  }
+  .Login form {
+    margin: 0 auto;
+    max-width: 550px;  
+  }
+  .mx-auto {
+    margin-top: 100px;
+  }
+  .button {
+  background-color:	hsl(1, 65%, 38%);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px
+  }
+ label{
+   color:rgb(189, 33, 33);
+ }
+  .col-sm-2 .col-form-label .col-form-label-lg{ font-size: 24px; }
+
+}
